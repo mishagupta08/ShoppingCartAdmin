@@ -1,0 +1,129 @@
+﻿@model ShoppingCartAdmin.Models.DashboardViewModel
+@using ShoppingCartAdmin.Properties
+@{
+    ViewBag.Title = "Order Detail";
+}
+
+<link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    .modal-title {
+        position: absolute;
+        float: left;
+    }
+</style>
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="#">Master</a>
+    </li>
+    <li class="breadcrumb-item active">@Resources.CustomerDetail</li>
+</ol>
+
+@******Data table******@
+@*@Html.HiddenFor(m => Resources.NewUser, new { name = "viewName" })*@
+<input type="hidden" value="@Model.SelectedMenu" id="viewName" />
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fa fa-table"></i> @Model.SelectedMenu
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" style="font-size: 12px !important;" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th width="10">S.No.</th>
+                        <th>Order Detail</th>
+                        <th>Address Detail</th>
+                        @if (Model.SelectedMenu == Resources.PendingOrderDetail)
+                        {
+                            <th>Payment Detail</th>
+                        }
+                        else
+                        {
+                            <th>Product Detail</th>
+                        }
+                        <th>Order Detail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.OrderDetailList == null || Model.OrderDetailList.Count() == 0)
+                    {
+                        <tr>
+                            <td>No records found!!</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        var count = 0;
+                        foreach (var order in Model.OrderDetailList)
+                        {
+                            count++;
+                            <tr>
+                                <td>@count</td>
+                                <td>
+                                    <span>Order No.:</span>@order.OrderNo<br />
+                                    <span>Order Date.:</span>@order.OrderDate<br />
+                                    @order.ManufacturerComapany<br />
+                                </td>
+                                <td>@order.Address , @order.CityName, <br /> @order.StateName - @order.PinCode</td>
+                                <td>
+                                    @if (Model.SelectedMenu == Resources.PendingOrderDetail)
+                                    {
+                                        <span>Payment Mode: </span>@order.PaymentMode<br />
+                                        <span>From Wallet: </span>@order.Wallet<br />
+                                        <span>From Online DD: </span>@order.OnlineDD<br />
+                                        <span>Payment: </span>@order.Amount<br />
+                                        <span>DD No.:</span>@order.DDno<br />
+                                            <span>DD AMount:</span>@order.DDAmount<br />
+                                            <span>DD Date:</span>@order.DDDate<br />
+                                    }
+                                    else
+                                    {
+                                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th width="50">Product Name</th>
+                                                    <th>Qty</th>
+                                                    <th>Rate</th>
+                                                    <th>NetAmount</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var prod in order.orderProduct)
+                                                {
+                                                    var amount = prod.Quantity * prod.Amount;
+                                                <tr>
+                                                    <td>@prod.ProductName</td>
+                                                    <td>@prod.Quantity</td>
+                                                    <td>@prod.Amount</td>
+                                                    <td>@amount</td>
+                                                </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    }
+                                </td>
+                                <td>
+                                    <span>Order Items: </span>@order.OrderItems<br />
+                                    <span>Order Qty: </span>@order.OrderQuantity<br />
+                                    <span>Total Amount: </span>@order.TotalAmount<br />
+                                    @if (Model.SelectedMenu == Resources.PendingOrderDetail)
+                                    {
+                                        <span>Order Status: </span>@order.OrderStatus<br />
+                                    }
+                                    else
+                                    {
+                                        <span>Cancel Date: </span>@order.CancelDate<br />
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="~/vendor/jquery/jquery.min.js"></script>
+<script src="~/Scripts/Project/dashboard.js"></script>

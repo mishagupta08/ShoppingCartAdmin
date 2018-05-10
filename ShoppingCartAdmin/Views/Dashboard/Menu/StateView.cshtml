@@ -1,0 +1,98 @@
+﻿@using ShoppingCartAdmin.Properties
+@model ShoppingCartAdmin.Models.DashboardViewModel
+@{
+    ViewBag.Title = "StateView";
+}
+
+<link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    .modal-title {
+        position: absolute;
+        float: left;
+    }
+</style>
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="#">Master</a>
+    </li>
+    <li class="breadcrumb-item active">New State</li>
+</ol>
+
+@******Data table******@
+@*@Html.HiddenFor(m => Resources.StateMaster, new { name = "viewName" })*@
+<input type="hidden" value="@Resources.StateMaster" id="viewName" />
+<div class="card mb-3">
+    <div class="card-header">
+        <button type="button" class="btn btn-info btn-lg" id="modelBtn" data-toggle="modal" data-target="#myModal">Add State</button>
+        <button type="button" class="btn" style="display:none;" id="deleteBtn" data-toggle="modal" data-target="#deleteView"></button>
+    </div>
+    <div class="card-header">
+        <i class="fa fa-table"></i> States
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>State Name</th>
+                        <th>Remark</th>
+                        <th>Status</th>
+                        <th>Modify</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var state in Model.StateDetailList)
+                    {
+                        <tr>
+                            <td>@state.StateName</td>
+                            <td>@state.Remark</td>
+                            <td>
+                                @if (state.IsActive == true)
+                                {
+                                    <span>Active</span>
+                                }
+                                else
+                                {
+                                    <span>DeActive</span>
+                                }
+                            </td>
+                            <td><a href="#" name="editButton" data-id="@state.StateId">Modify</a></td>
+                            <td><a href="#" name="deleteButton" data-id="@state.StateId">Delete</a></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="addViewcontainer" style="min-height:339px;">
+    @Html.Partial("~/Views/Dashboard/Menu/addStateView.cshtml", Model)
+</div>
+<div id="deleteView" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="deleteCloseBtn" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete Group</h4>
+            </div>
+            <div class="modal-body">
+                <span style="display:none;" id="deleteId" data-delete-id=""></span>
+                <div class="form-group">
+                    Are you sure!!
+                </div>
+                <div class="form-group" style="text-align: center;">
+                    <label id="deleteError" style="color:red;"></label>
+                    <button type="submit" id="deleteYesBtn" class="btn btn-info text-uppercase waves-effect waves-light">Yes</button>
+                    @*<button type="button" id="deleteNoBtn" class="btn btn-info text-uppercase waves-effect waves-light">No</button>*@
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="~/vendor/jquery/jquery.min.js"></script>
+<script src="~/Scripts/Project/dashboard.js"></script>

@@ -1,0 +1,143 @@
+﻿@model ShoppingCartAdmin.Models.DashboardViewModel
+@using ShoppingCartAdmin.Properties
+@{
+    ViewBag.Title = "ProductView";
+}
+
+<link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    .modal-title {
+        position: absolute;
+        float: left;
+    }
+</style>
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="#">User</a>
+    </li>
+    <li class="breadcrumb-item active">New Product</li>
+</ol>
+
+@******Data table******@
+@*@Html.HiddenFor(m => Resources.NewUser, new { name = "viewName" })*@
+<input type="hidden" value="@Resources.ProductMaster" id="viewName" />
+<div class="card mb-3">
+    <div class="card-header">
+        <button type="button" class="btn btn-info btn-lg" id="modelBtn" data-toggle="modal" data-target="#myModal">Add Product</button>
+        <button type="button" class="btn" style="display:none;" id="deleteBtn" data-toggle="modal" data-target="#deleteView"></button>
+        <button type="button" class="btn" style="display:none;" id="imageBtn" data-toggle="modal" data-target="#myModalImages"></button>
+    </div>
+    <div class="card-header">
+        <i class="fa fa-table"></i> Products
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Category</th>
+                        <th>Product</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Description</th>
+                        <th>Remarks</th>
+                        <th>Status</th>
+                        <th>Images</th>
+                        <th>Modify</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.ProductDetailList == null || Model.ProductDetailList.Count() == 0)
+                    {
+                        <tr>
+                            <td>No records found!!</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var Product in Model.ProductDetailList)
+                        {
+                            <tr>
+                                <td>
+                                    <span>Category</span> @Product.CategoryName
+                                    <br />
+                                    <span>Sub-Category</span> @Product.SubCategoryName
+                                    <br />
+                                    <span>Brand</span> @Product.BrandName
+                                </td>
+                                <td>
+                                    <img src="@Product.ProductImage" height="50" /> <br />
+                                    @Product.Name
+                                </td>
+                                <td>
+                                    <span>MRP: </span> @Product.MRP
+                                    <br />
+                                    <span>DP: </span> @Product.Dp
+                                    <br />
+                                    <span>BV: </span> @Product.Bv
+                                </td>
+                                <td>
+                                    <span>@Product.Quantity</span><br />
+                                </td>
+                                <td>
+                                    <span>@Product.Description</span><br />
+                                </td>
+                                <td>
+                                    <span>@Product.Remarks</span><br />
+                                </td>
+                                <td>
+                                    @if (Product.IsActive == true)
+                                    {
+                                        <span>Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span>DeActive</span>
+                                    }
+                                </td>
+                                <td><a href="#" name="imageButton" data-id="@Product.Id">More Images</a></td>
+                                <td><a href="#" name="editButton" data-id="@Product.Id">Modify</a></td>
+                                <td><a href="#" name="deleteButton" data-id="@Product.Id">Delete</a></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="addViewcontainer" style="min-height:339px;">
+    @Html.Partial("~/Views/Dashboard/Menu/addProductView.cshtml", Model)
+</div>
+<div id="addImageViewcontainer" style="min-height:339px;">
+    <input type="hidden" id="imageViewName" value='@Resources.ProductImageMaster' />
+    @*//@Html.Partial("~/Views/Dashboard/Menu/addProductImaes.cshtml", Model)*@
+</div>
+<div id="deleteView" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="deleteCloseBtn" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete Sub-Category</h4>
+            </div>
+            <div class="modal-body">
+                <span style="display:none;" id="deleteId" data-delete-id=""></span>
+                <div class="form-group">
+                    Are you sure!!
+                </div>
+                <div class="form-group" style="text-align: center;">
+                    <label id="deleteError" style="color:red;"></label>
+                    <button type="submit" id="deleteYesBtn" class="btn btn-info text-uppercase waves-effect waves-light">Yes</button>
+                    @*<button type="button" id="deleteNoBtn" class="btn btn-info text-uppercase waves-effect waves-light">No</button>*@
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="~/vendor/jquery/jquery.min.js"></script>
+<script src="~/Scripts/Project/dashboard.js"></script>

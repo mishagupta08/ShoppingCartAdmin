@@ -1,0 +1,56 @@
+﻿@model ShoppingCartAdmin.Models.DashboardViewModel
+@{
+    Layout = null;
+}
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="viewName">Category Master</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal form-material" id="addCategory" onsubmit="return AddImage();">
+                    @Html.HiddenFor(m => m.CategoryDetail.Id, new { name = "Id" })
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Category Name</label>
+                        @*<input class="form-control" id="exampleInputEmail1" type="email" aria-describedby="emailHelp" placeholder="Enter email">*@
+                        @Html.TextBoxFor(m => m.CategoryDetail.Name, new { @id = "Name", @required = "required", @class = "form-control", @placeholder = "Category Name" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Remarks</label>
+                        @Html.TextBoxFor(m => m.CategoryDetail.Remarks, new { @id = "Remark", @required = "required", @class = "form-control", @placeholder = "Remarks" })
+                    </div>
+                    @Html.HiddenFor(m => m.CategoryDetail.BannerImage, new { @id = "imageFilePath" })
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Banner Image</label>
+                        <div class="form-group">
+                            <input type="file" id="files" name="file" />
+                            <div id="progress_bar"><div class="percent">0%</div></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            @Html.RadioButtonFor(m => m.CategoryDetail.IsActive, "true", new { name = "status", id = "Active", @class = "flat" })&nbsp; Active &nbsp;
+                        </label>
+                        <label>
+                            @Html.RadioButtonFor(m => m.CategoryDetail.IsActive, "false", new { name = "status", id = "deActive", @class = "flat" })&nbsp; DeActive &nbsp;
+                        </label>
+                    </div>
+                    <label id="error" style="color:red;"></label>
+                    <button type="submit" id="loginButton" on" class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light">Save</button>
+                </form>
+            </div>
+            @*<div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>*@
+        </div>
+
+    </div>
+</div>
+<script src="~/vendor/jquery/jquery.min.js"></script>
+<script src="~/Scripts/Project/dashboard.js"></script>

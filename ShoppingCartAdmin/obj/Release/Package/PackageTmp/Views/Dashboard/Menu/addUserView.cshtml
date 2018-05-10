@@ -1,0 +1,57 @@
+﻿@model ShoppingCartAdmin.Models.DashboardViewModel
+@{
+    Layout = null;
+}
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">User Master</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal form-material" id="adduser" onsubmit="return AddAdminUser();">
+                    @Html.HiddenFor(m => m.UserDetail.Id, new { name = "Id" })
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Username</label>
+                        @*<input class="form-control" id="exampleInputEmail1" type="email" aria-describedby="emailHelp" placeholder="Enter email">*@
+                        @Html.TextBoxFor(m => m.UserDetail.UserName, new { @id = "Username", @required = "required", @class = "form-control", @placeholder = "Username" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        @Html.TextBoxFor(m => m.UserDetail.Password, new { @id = "Password", @required = "required", @type = "password", @class = "form-control", @placeholder = "Password" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Remarks</label>
+                        @Html.TextBoxFor(m => m.UserDetail.Remarks, new { @id = "Remark", @required = "required", @class = "form-control", @placeholder = "Remarks" })
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            @Html.RadioButtonFor(m => m.UserDetail.IsActive, "true", new { name = "status", id = "Active", @class = "flat" })&nbsp; Active &nbsp;
+                        </label>
+                        <label>
+                            @Html.RadioButtonFor(m => m.UserDetail.IsActive, "false", new { name = "status", id = "deActive", @class = "flat" })&nbsp; DeActive &nbsp;
+                        </label>
+                    </div>
+                    <label id="error" style="color:red;"></label>
+                    <button type="submit" id="loginButton" on" class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light">Save</button>
+                </form>
+            </div>
+            @*<div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>*@
+
+            @*<div class="form-group">
+                    <label>
+                        @Html.RadioButtonFor(m => m.UserDetail.IsActive, "Active", Model.UserDetail.IsActive == true ? new { Checked = "checked", @class = "flat" } : null)&nbsp; Active &nbsp;
+                    </label>
+                    <label>
+                        @Html.RadioButtonFor(m => m.UserDetail.IsActive, "DeActive", Model.UserDetail.IsActive == false ? new { Checked = "checked", @class = "flat" } : null)&nbsp; DeActive &nbsp;
+                    </label>
+                </div>*@
+        </div>
+
+    </div>
+</div>

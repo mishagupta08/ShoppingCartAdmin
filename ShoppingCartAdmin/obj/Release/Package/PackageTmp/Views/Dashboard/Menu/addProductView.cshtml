@@ -1,0 +1,109 @@
+﻿@model ShoppingCartAdmin.Models.DashboardViewModel
+@{
+    Layout = null;
+}
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" id="viewName">Prduct Master</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal form-material" id="addProduct" onsubmit="return AddImage();">
+                    @Html.HiddenFor(m => m.ProductDetail.Id, new { name = "Id" })
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Category Name:</label>
+                        @*<input class="form-control" id="exampleInputEmail1" type="email" aria-describedby="emailHelp" placeholder="Enter email">*@
+                        @Html.DropDownListFor(m => m.ProductDetail.CategoryId, new SelectList(Model.CategoryDetailList, "Id", "Name"), new { @required = "0", id = "categoryList", name = "categoryList", @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Sub-Category Name:</label>
+                        @*<input class="form-control" id="exampleInputEmail1" type="email" aria-describedby="emailHelp" placeholder="Enter email">*@
+                        @Html.DropDownListFor(m => m.ProductDetail.SubCategoryId, new SelectList(Model.SubCategoryDetailList, "Id", "Name"), new { @required = "0", id = "subcategoryList", name = "subcategoryList", @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Brand Name:</label>
+                        @*<input class="form-control" id="exampleInputEmail1" type="email" aria-describedby="emailHelp" placeholder="Enter email">*@
+                        @Html.DropDownListFor(m => m.ProductDetail.BrandId, new SelectList(Model.BrandDetailList, "BrandId", "Name"), new { @required = "0", id = "brandList", name = "brandList", @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Product Name</label>
+                        @Html.TextBoxFor(m => m.ProductDetail.Name, new { @id = "name", @required = "required", @class = "form-control", @placeholder = "Name" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Product Quantity</label>
+                        @Html.TextBoxFor(m => m.ProductDetail.Quantity, new { @id = "qty", @required = "required", @class = "form-control", @placeholder = "Quantity" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Product description</label>
+                        @Html.TextBoxFor(m => m.ProductDetail.Description, new { @id = "Description", @required = "required", @class = "form-control", @placeholder = "Description" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">MRP: </label>
+                        @Html.TextBoxFor(m => m.ProductDetail.MRP, new { @id = "mrp", @required = "required", @class = "form-control", @placeholder = "MRP" })
+                    </div>
+                    <div class="form-group">
+                        <div>
+                            <label for="exampleInputPassword1">DP: </label>
+                            @Html.TextBoxFor(m => m.ProductDetail.Dp, new { @id = "dp", @required = "required", @class = "form-control", @placeholder = "Dp" })
+                        </div>
+                        <div>
+                            <label for="exampleInputPassword1">BV: </label>
+                            @Html.TextBoxFor(m => m.ProductDetail.Bv, new { @id = "bv", @required = "required", @class = "form-control", @placeholder = "Bv" })
+                        </div>
+                    </div>
+                    @Html.HiddenFor(m => m.ProductDetail.ProductImage, new { @id = "imageFilePath" })
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Banner Image</label>
+                        <div class="form-group">
+                            <input type="file" id="files" name="file" />
+                            <div id="progress_bar"><div class="percent">0%</div></div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            @Html.CheckBox("ProductDetail.HomePage", Model.ProductDetail.HomePage != null && (bool)Model.ProductDetail.HomePage, new { name = "status1", id = "Active1", @class = "flat" })
+                            &nbsp; Show on Home Page &nbsp;
+                        </label>
+                        <label>
+                            @Html.CheckBox("ProductDetail.Recommended", Model.ProductDetail.Recommended != null && (bool)Model.ProductDetail.Recommended, new { name = "status2", id = "Active2", @class = "flat" })
+                            &nbsp; Recommended Product &nbsp;
+                        </label>
+                        <label>
+                            @Html.CheckBox("ProductDetail.Featured", Model.ProductDetail.Featured != null && (bool)Model.ProductDetail.Featured, new { name = "status3", id = "Active3", @class = "flat" })
+                            &nbsp; Featured Product &nbsp;
+                        </label>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Detail Description: </label>
+                        @Html.TextAreaFor(m => m.ProductDetail.DetailDescription, new { @id = "DetailDescription", @required = "required", @class = "form-control", @placeholder = "" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Remark: </label>
+                        @Html.TextAreaFor(m => m.ProductDetail.Remarks, new { @id = "Remarks", @required = "required", @class = "form-control", @placeholder = "" })
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            @Html.RadioButtonFor(m => m.ProductDetail.IsActive, "true", new { name = "status", id = "Active", @class = "flat" })&nbsp; Active &nbsp;
+                        </label>
+                        <label>
+                            @Html.RadioButtonFor(m => m.ProductDetail.IsActive, "false", new { name = "status", id = "deActive", @class = "flat" })&nbsp; DeActive &nbsp;
+                        </label>
+                    </div>
+                    <label id="error" style="color:red;"></label>
+                    <button type="submit" id="loginButton" on" class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light">Save</button>
+                </form>
+            </div>
+            @*<div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>*@
+        </div>
+
+    </div>
+</div>
+<script src="~/vendor/jquery/jquery.min.js"></script>
+<script src="~/Scripts/Project/dashboard.js"></script>

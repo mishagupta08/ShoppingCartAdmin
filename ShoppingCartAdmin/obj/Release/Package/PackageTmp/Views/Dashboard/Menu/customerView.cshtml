@@ -1,0 +1,76 @@
+﻿@model ShoppingCartAdmin.Models.DashboardViewModel
+@using ShoppingCartAdmin.Properties
+@{
+    ViewBag.Title = "CustomerView";
+}
+
+<link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    .modal-title {
+        position: absolute;
+        float: left;
+    }
+</style>
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="#">Master</a>
+    </li>
+    <li class="breadcrumb-item active">@Resources.CustomerDetail</li>
+</ol>
+
+@******Data table******@
+@*@Html.HiddenFor(m => Resources.NewUser, new { name = "viewName" })*@
+<input type="hidden" value="@Resources.CustomerDetail" id="viewName" />
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fa fa-table"></i> @Resources.CustomerDetail
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th width="50">S.No.</th>
+                        <th>Customer Id</th>
+                        <th>Customer Name</th>
+                        <th>Email</th>
+                        <th width="300">Address</th>
+                        <th>City</th>
+                        <th>Mobile No.</th>
+                        <th>UserName</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.CustomerDetailList == null || Model.CustomerDetailList.Count() == 0)
+                    {
+                        <tr>
+                            <td>No records found!!</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        var count = 0;
+                        foreach (var customer in Model.CustomerDetailList)
+                        {
+                            count++;
+                            <tr>
+                                <td>@count</td>
+                                <td>@customer.CustomerId</td>
+                                <td>@customer.Name</td>
+                                <td>@customer.Email</td>
+                                <td>@customer.Address</td>
+                                <td>@customer.CityName, @customer.StateName - @customer.PinCode</td>
+                                <td>@customer.MobileNo</td>
+                                <td>@customer.Username</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<script src="~/vendor/jquery/jquery.min.js"></script>
+<script src="~/Scripts/Project/dashboard.js"></script>

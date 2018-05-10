@@ -1,0 +1,107 @@
+﻿@model ShoppingCartAdmin.Models.DashboardViewModel
+@using ShoppingCartAdmin.Properties
+@{
+    ViewBag.Title = "BrandView";
+}
+
+<link href="~/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+    .modal-title {
+        position: absolute;
+        float: left;
+    }
+</style>
+<!-- Breadcrumbs-->
+<ol class="breadcrumb">
+    <li class="breadcrumb-item">
+        <a href="#">Master</a>
+    </li>
+    <li class="breadcrumb-item active">New Brand</li>
+</ol>
+
+@******Data table******@
+@*@Html.HiddenFor(m => Resources.NewUser, new { name = "viewName" })*@
+<input type="hidden" value="@Resources.BrandMaster" id="viewName" />
+<div class="card mb-3">
+    <div class="card-header">
+        <button type="button" class="btn btn-info btn-lg" id="modelBtn" data-toggle="modal" data-target="#myModal">Add Brand</button>
+        <button type="button" class="btn" style="display:none;" id="deleteBtn" data-toggle="modal" data-target="#deleteView"></button>
+    </div>
+    <div class="card-header">
+        <i class="fa fa-table"></i> Brands
+    </div>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Brand Name</th>
+                        <th>Remark</th>
+                        <th>Status</th>
+                        <th>Modify</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.BrandDetailList == null || Model.BrandDetailList.Count() == 0)
+                    {
+                        <tr>
+                            <td>No records found!!</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var brand in Model.BrandDetailList)
+                        {
+                            <tr>
+                                <td>@brand.Name</td>
+                                <td>@brand.Remarks</td>
+                                <td>
+                                    @if (brand.IsActive == true)
+                                    {
+                                        <span>Active</span>
+                                    }
+                                    else
+                                    {
+                                        <span>DeActive</span>
+                                    }
+                                </td>
+                                <td><a href="#" name="editButton" data-id="@brand.BrandId">Modify</a></td>
+                                <td><a href="#" name="deleteButton" data-id="@brand.BrandId">Delete</a></td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div id="addViewcontainer" style="min-height:339px;">
+    @Html.Partial("~/Views/Dashboard/Menu/addBrandView.cshtml", Model)
+</div>
+<div id="deleteView" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" id="deleteCloseBtn" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Delete Brand</h4>
+            </div>
+            <div class="modal-body">
+                <span style="display:none;" id="deleteId" data-delete-id=""></span>
+                <div class="form-group">
+                    Are you sure!!
+                </div>
+                <div class="form-group" style="text-align: center;">
+                    <label id="deleteError" style="color:red;"></label>
+                    <button type="submit" id="deleteYesBtn" class="btn btn-info text-uppercase waves-effect waves-light">Yes</button>
+                    @*<button type="button" id="deleteNoBtn" class="btn btn-info text-uppercase waves-effect waves-light">No</button>*@
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="~/vendor/jquery/jquery.min.js"></script>
+<script src="~/Scripts/Project/dashboard.js"></script>

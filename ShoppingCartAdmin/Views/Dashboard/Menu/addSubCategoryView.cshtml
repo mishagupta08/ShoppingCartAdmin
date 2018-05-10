@@ -1,0 +1,48 @@
+﻿@model ShoppingCartAdmin.Models.DashboardViewModel
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title">Sub-Category Master</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal form-material" id="addSubCategory" onsubmit="return AddSubCategory();">
+                    @Html.HiddenFor(m => m.SubCategoryDetail.Id, new { name = "Id" })
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Category Name</label>
+                        @*<input class="form-control" id="exampleInputEmail1" type="email" aria-describedby="emailHelp" placeholder="Enter email">*@
+                        @Html.DropDownListFor(m => m.SubCategoryDetail.CategoryId, new SelectList(Model.CategoryDetailList, "Id", "Name"), new { @required = "0", id = "categoryList", name = "categoryList", @class = "form-control" })
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Sub-Category Name</label>
+                        @*<input class="form-control" id="exampleInputEmail1" type="email" aria-describedby="emailHelp" placeholder="Enter email">*@
+                        @Html.TextBoxFor(m => m.SubCategoryDetail.Name, new { @id = "Name", @required = "required", @class = "form-control", @placeholder = "Category Name" })
+                    </div>
+
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Remarks</label>
+                        @Html.TextBoxFor(m => m.SubCategoryDetail.Remarks, new { @id = "Remark", @required = "required", @class = "form-control", @placeholder = "Remarks" })
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            @Html.RadioButtonFor(m => m.SubCategoryDetail.IsActive, "true", new { name = "status", id = "Active", @class = "flat" })&nbsp; Active &nbsp;
+                        </label>
+                        <label>
+                            @Html.RadioButtonFor(m => m.SubCategoryDetail.IsActive, "false", new { name = "status", id = "deActive", @class = "flat" })&nbsp; DeActive &nbsp;
+                        </label>
+                    </div>
+                    <label id="error" style="color:red;"></label>
+                    <button type="submit" id="loginButton" on" class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light">Save</button>
+                </form>
+            </div>
+            @*<div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>*@
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,115 @@
+﻿@using ShoppingCartAdmin.Properties
+@model ShoppingCartAdmin.Models.DashboardViewModel
+@{
+    Layout = null;
+}
+
+<style>
+    .imageContainer {
+        position: relative;
+        text-align: center;
+        color: white;
+    }
+
+    .top-right {
+        position: absolute;
+        top: 2px;
+        right: 2px;
+        cursor: pointer;
+        z-index: 1;
+    }
+</style>
+<html>
+<body>
+    <button type="button" class="btn" style="display:none;" id="deleteImageBtn" data-toggle="modal" data-target="#deleteImageView"></button>
+    <div id="myModalImages" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title" id="viewName">@Resources.ProductImageMaster</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-horizontal form-material" id="addProductImage">
+                        @*@using (Html.BeginForm("AddProductImages", "Dashboard", FormMethod.Post, new { enctype = "multipart/form-data" }))*@
+
+                        @Html.AntiForgeryToken()
+                        <div class="form-horizontal">
+                            <hr />
+                            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.files, htmlAttributes: new { @class = "control-label col-md-2" })
+                                <div class="col-md-10">
+                                    @Html.TextBoxFor(model => model.files, "", new { @type = "file", @multiple = "multiple" })
+                                    @Html.ValidationMessageFor(model => model.files, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <input type="submit" value="Upload" class="btn btn-primary" />
+                                    <div id="status"></div>
+                                </div>
+                            </div>
+                            @Html.HiddenFor(m => m.ProductDetail.Id, new { name = "Id", id = "ProdId" })
+                            <div class="form-group">
+                                <div class="col-md-offset-2 col-md-10 text-success" id="urlHidden">
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </form>
+                    <div class="container">
+                        <div id="main_area">
+                            <!-- Slider -->
+                            <div id="slider-thumbs">
+                                <!-- Bottom switcher of slider -->
+                                <div id="productImageContainer">
+                                    @foreach (var image in Model.ProductImagesList)
+                                    {
+                                        <div class="imageContainer" id="@image.Id" style="display:inline-block; margin-right:2px;">
+                                            <img src="@image.Imageurl" height="100" width="100">
+                                            <img class="top-right" src="~/images/close.png" name="closeImage" data-id="@image.Id" height="18" width="18">
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="deleteImageView" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" id="deleteCloseImageBtn" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Delete Image</h4>
+                </div>
+                <div class="modal-body">
+                    <span style="display:none;" id="deleteId" data-delete-id=""></span>
+                    <div class="form-group">
+                        Are you sure!!
+                    </div>
+                    <div class="form-group" style="text-align: center;">
+                        <label id="deleteError" style="color:red;"></label>
+                        <button type="submit" id="deleteImageYesBtn" class="btn btn-info text-uppercase waves-effect waves-light">Yes</button>
+                        @*<button type="button" id="deleteNoBtn" class="btn btn-info text-uppercase waves-effect waves-light">No</button>*@
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    @*<script src="~/Scripts/bootstrap.min.js"></script>*@
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/Project/dashboard.js"></script>
+    <script src="~/Scripts/Project/imageGallary.js"></script>
+    @*<script src="~/Scripts/Project/imageGallary.js"></script>*@
+    @*<script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>*@
+</body>
+</html>
